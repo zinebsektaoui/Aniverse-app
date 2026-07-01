@@ -1,13 +1,18 @@
-import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
+import { Routes, Route } from "react-router-dom";
 
+
+import Home from "./pages/Home";
+import Navbar from "./components/layouts/Navbar";
 
 function App() {
   return (
-    <div className="app-content">
-      <Navbar/>
-    </div>
-  )
+    <>
+      <Navbar />
+      <Routes>
+        <Route index element={<Home />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
