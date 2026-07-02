@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addToFav } from "../thunks/favoriteThunk";
+import { addToFav, getFav } from "../thunks/favoriteThunk";
 
 const initialState = {
   favorites: [],
@@ -23,10 +23,24 @@ const favoriteSlice = createSlice({
           (item) => item.mal_id === action.payload.mal_id,
         );
         if (existingIndex === -1) {
-          state.favorites.push(action.payload);
+          state.favorites.push(action.payload)
         }
       })
       .addCase(addToFav.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // get fav
+      .addCase(getFav.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getFav.fulfilled, (state, action) => {
+        state.loading = false;
+        state.favorites = action.payload;
+      })
+      .addCase(getFav.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
