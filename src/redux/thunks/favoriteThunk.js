@@ -16,3 +16,15 @@ export const addToFav = createAsyncThunk(
         }
     }
 )
+
+export const getFav = createAsyncThunk(
+    "/favorites",
+    async(_, {rejectWithValue}) => {
+        try {
+            const res = await jsonServer.get("favorites")
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
