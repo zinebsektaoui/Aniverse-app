@@ -14,6 +14,7 @@ import Spinner from "../layouts/Spinner";
 import ErrorState from "../layouts/ErrorState";
 import Footer from "../layouts/Footer";
 import { addToFav } from "../../redux/thunks/favoriteThunk";
+import Characters from "../../pages/Characters";
 
 export default function AnimeDetail() {
   const { id } = useParams();
@@ -32,7 +33,6 @@ export default function AnimeDetail() {
   );
   const handleFavorite = async (e) => {
     e.stopPropagation();
-
     try {
       if (!isFavorite) {
         await dispatch(addToFav(selectedAnime)).unwrap();
@@ -98,11 +98,12 @@ export default function AnimeDetail() {
               />
             </button>
           </div>
-
-          <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#0f1420] border border-white/5 text-sm font-medium text-slate-300 hover:border-orange-500/30 hover:text-white transition-all">
-            <Users className="w-4 h-4" />
-            View Anime Characters
-          </button>
+          {/* <Link to={`/characters/${character.id}`}> */}
+            <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#0f1420] border border-white/5 text-sm font-medium text-slate-300 hover:border-orange-500/30 hover:text-white transition-all">
+              <Users className="w-4 h-4" />
+              View Anime Characters
+            </button>
+          {/* </Link>  */}
 
           <div className="rounded-2xl bg-[#0f1420] border border-white/5 p-5">
             <div className="flex items-center gap-2 mb-4">
@@ -131,12 +132,11 @@ export default function AnimeDetail() {
             </button>
           </div>
 
-          {/* Notes & Ratings */}
           <div className="rounded-2xl bg-[#0f1420] border border-white/5 p-5">
             <div className="flex items-center gap-2 mb-4">
               <PenLine className="w-4 h-4 text-orange-400" />
               <h3 className="text-sm font-bold text-white">
-                Notes &amp; Ratings
+                Notes & Ratings
               </h3>
             </div>
 
@@ -160,7 +160,7 @@ export default function AnimeDetail() {
             </div>
 
             <label className="text-xs text-slate-500 uppercase tracking-wide">
-              Personal Review / Notes
+              Personal Review
             </label>
             <textarea
               value={notes}
@@ -171,7 +171,7 @@ export default function AnimeDetail() {
             />
 
             <button className="w-full py-2.5 rounded-lg font-semibold text-sm text-white bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 transition-all shadow-lg shadow-pink-900/20">
-              Save Score &amp; Note
+              Save Review & Notes
             </button>
           </div>
         </div>
