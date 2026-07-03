@@ -1,8 +1,9 @@
 import { Tv, Flame, BookOpen, Heart, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0a0e1a] text-slate-400 px-8 py-12 border-t border-white/5">
+    <footer className="bg-[#0a0e1a] text-slate-400 px-8 py-12 border-t border-white/5 mb-0">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Brand */}
         <div>
@@ -29,13 +30,13 @@ export default function Footer() {
           </div>
           <ul className="space-y-3 text-sm">
             <li className="hover:text-white cursor-pointer transition-colors">
-              Home Dashboard
+              <Link to="/">Home Dashboard</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              All Anime Directory
+              <Link to="/anime">All Anime Directory</Link>
             </li>
             <li className="hover:text-white cursor-pointer transition-colors">
-              Characters Database
+              <Link to="/characters">Characters Database</Link>
             </li>
           </ul>
         </div>
@@ -48,16 +49,13 @@ export default function Footer() {
           </div>
           <ul className="space-y-3 text-sm">
             <li className="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
-              <Heart className="w-4 h-4 text-pink-400" />
-              Favorites
+              <Link to="/favorites">Favorites</Link>
             </li>
             <li className="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
-              <BookOpen className="w-4 h-4 text-blue-400" />
-              My Library
+              <Link to="/library">My Library</Link>
             </li>
             <li className="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
-              <Sparkles className="w-4 h-4 text-yellow-400" />
-              Personal Analytics
+              <Link to="/analytics">Personal Analytics</Link>
             </li>
           </ul>
         </div>
@@ -66,17 +64,6 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
         <p>© 2026 AniVerse. Built for anime enthusiasts worldwide.</p>
-        <div className="flex gap-6">
-          <span className="hover:text-white cursor-pointer transition-colors">
-            Terms of Service
-          </span>
-          <span className="hover:text-white cursor-pointer transition-colors">
-            Privacy Policy
-          </span>
-          <span className="hover:text-white cursor-pointer transition-colors">
-            Cookie Settings
-          </span>
-        </div>
       </div>
     </footer>
   );
