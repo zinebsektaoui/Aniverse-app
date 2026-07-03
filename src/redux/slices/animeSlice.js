@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  animeCharacters,
   fetchAllAnimes,
   fetchAnimeDetails,
   fetchSeasonalAnime,
   fetchTrendingAnime,
 } from "../thunks/animeThunk";
+import { act } from "react";
 
 const initialState = {
   trending: [],
@@ -75,8 +77,22 @@ const animeSlice = createSlice({
       .addCase(fetchAnimeDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
-  },
+      })
+
+      // anime characters
+      .addCase(animeCharacters.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(animeCharacters.fulfilled, (state, action) => {
+        state.loading = false;
+        state.animeCharacters = action.payload;
+      })
+      .addCase(animeCharacters.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+    },
 });
 
 export default animeSlice.reducer;
