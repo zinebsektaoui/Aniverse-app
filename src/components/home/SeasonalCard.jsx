@@ -35,6 +35,9 @@ function SeasonalCard() {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {seasonal.map((anime) => (
           <div
+            onClick={() => {
+              window.location.href = `/anime/${anime.mal_id}/full`;
+            }}
             key={anime.mal_id}
             className="group relative bg-[#0f1420] rounded-2xl overflow-hidden border border-white/5 hover:border-red-500/30 transition-all cursor-pointer"
           >
