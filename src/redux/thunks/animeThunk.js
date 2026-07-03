@@ -48,3 +48,15 @@ export const fetchAnimeDetails = createAsyncThunk(
     }
   }
 );
+
+export const animeCharacters = createAsyncThunk(
+  "anime/characters",
+  async(animeCharacters, {rejectWithValue}) => {
+    try {
+      const response = await api.get(`anime/${id}/characters`)
+      return response.data.data
+    } catch (error) {
+      return rejectWithValue(err.message)      
+    }
+  }
+)
