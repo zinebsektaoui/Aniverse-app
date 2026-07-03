@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addToFav, getFav } from "../thunks/favoriteThunk";
+import { addToFav, getFav, removeFromFav } from "../thunks/favoriteThunk";
 
 const initialState = {
   favorites: [],
@@ -19,6 +19,7 @@ const favoriteSlice = createSlice({
       })
       .addCase(addToFav.fulfilled, (state, action) => {
         state.loading = false;
+        // Check if the anime is already in favorites before adding
         const existingIndex = state.favorites.findIndex(
           (item) => item.mal_id === action.payload.mal_id,
         );
@@ -41,6 +42,21 @@ const favoriteSlice = createSlice({
         state.favorites = action.payload;
       })
       .addCase(getFav.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // remove from fev
+      .addCase(removeFromFav.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeFromFav.fulfilled, (state, action) => {
+        state.loading = false;
+        // Remove the anime from favorites based on its id
+        state.favorites = state.favorites.filter((fav) => fav.id !== action.payload.id);
+      })
+      .addCase(removeFromFav.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
