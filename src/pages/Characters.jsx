@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CharactersCard from "../components/characters/CharactersCard";
 import { displayAllCharacters } from "../redux/thunks/characterThunk";
+import Footer from "../components/layouts/Footer";
 
 function Characters() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function Characters() {
         </p>
       </div>
       <CharactersCard />
+      <Footer />
     </div>
   );
 }
