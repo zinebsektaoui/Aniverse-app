@@ -3,7 +3,6 @@ import AnimeCard from "../components/anime/animeCard";
 import { useDispatch } from "react-redux";
 import { fetchAllAnimes } from "../redux/thunks/animeThunk";
 import Footer from "../components/layouts/Footer";
-import SearchBar from "../components/anime/SearchBar";
 
 function Anime() {
   const dispatch = useDispatch();
