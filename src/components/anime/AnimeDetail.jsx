@@ -15,6 +15,7 @@ import ErrorState from "../layouts/ErrorState";
 import Footer from "../layouts/Footer";
 import { addToFav } from "../../redux/thunks/favoriteThunk";
 import Characters from "../../pages/Characters";
+import { addNoteAndReview } from "../../redux/thunks/noteThunk";
 
 export default function AnimeDetail() {
   const { id } = useParams();
@@ -23,8 +24,7 @@ export default function AnimeDetail() {
   const { selectedAnime, loading, error } = useSelector((state) => state.anime);
 
   const [watchStatus, setWatchStatus] = useState("Not in Library");
-  const [score, setScore] = useState(null);
-  const [notes, setNotes] = useState("");
+  
 
   const { favorites } = useSelector((state) => state.favorite);
 
@@ -41,6 +41,23 @@ export default function AnimeDetail() {
       console.error(error);
     }
   };
+
+  // logique of note and reviews :
+  const [note, setNote] = useState(0)
+  const [review, setReview] = useState("")
+  const handleNoteAndReview = async(e) => {
+    try {
+      const data = {
+        id : selectedAnime.mal_id,
+        title : selectedAnime.title,
+        note,
+        review
+      }
+      await dispatch(addNoteAndReview(data))
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     dispatch(fetchAnimeDetails(id));
   }, [id]);
@@ -141,15 +158,15 @@ export default function AnimeDetail() {
             </div>
 
             <label className="text-xs text-slate-500 uppercase tracking-wide">
-              Score (1 to 10)
+              Notes (1 to 10)
             </label>
             <div className="grid grid-cols-5 gap-2 mt-2 mb-4">
               {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
                 <button
                   key={n}
-                  onClick={() => setScore(n)}
+                  onClick={() => setNote(n)}
                   className={`py-2 rounded-lg text-sm font-semibold border transition-all ${
-                    score === n
+                    note === n
                       ? "bg-gradient-to-r from-orange-500 to-pink-600 border-transparent text-white"
                       : "bg-[#0a0e1a] border-white/10 text-slate-400 hover:border-orange-500/30 hover:text-white"
                   }`}
@@ -163,14 +180,16 @@ export default function AnimeDetail() {
               Personal Review
             </label>
             <textarea
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
               placeholder="Record your personal notes, plot reviews, or character comments..."
               rows={4}
               className="w-full mt-2 mb-4 px-3 py-2.5 rounded-lg bg-[#0a0e1a] border border-white/10 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-orange-500/50 transition-colors resize-none"
             />
 
-            <button className="w-full py-2.5 rounded-lg font-semibold text-sm text-white bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 transition-all shadow-lg shadow-pink-900/20">
+            <button
+            onClick={handleNoteAndReview}
+            className="w-full py-2.5 rounded-lg font-semibold text-sm text-white bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 transition-all shadow-lg shadow-pink-900/20">
               Save Review & Notes
             </button>
           </div>
