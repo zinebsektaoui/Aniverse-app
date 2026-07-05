@@ -16,6 +16,7 @@ import Footer from "../layouts/Footer";
 import { addToFav } from "../../redux/thunks/favoriteThunk";
 import Characters from "../../pages/Characters";
 import { addNoteAndReview } from "../../redux/thunks/noteThunk";
+import { addStatus } from "../../redux/thunks/statusThunk";
 
 export default function AnimeDetail() {
   const { id } = useParams();
@@ -24,6 +25,17 @@ export default function AnimeDetail() {
   const { selectedAnime, loading, error } = useSelector((state) => state.anime);
 
   const [watchStatus, setWatchStatus] = useState("Not in Library");
+  const handleSaveStatus = async() => {
+    try {
+      const data = {
+        ...selectedAnime,
+        status : watchStatus
+      }
+      await dispatch(addStatus(data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
   
 
   const { favorites } = useSelector((state) => state.favorite);
@@ -38,7 +50,7 @@ export default function AnimeDetail() {
         await dispatch(addToFav(selectedAnime)).unwrap();
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   };
 
@@ -115,12 +127,6 @@ export default function AnimeDetail() {
               />
             </button>
           </div>
-          {/* <Link to={`/characters/${character.id}`}> */}
-            <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#0f1420] border border-white/5 text-sm font-medium text-slate-300 hover:border-orange-500/30 hover:text-white transition-all">
-              <Users className="w-4 h-4" />
-              View Anime Characters
-            </button>
-          {/* </Link>  */}
 
           <div className="rounded-2xl bg-[#0f1420] border border-white/5 p-5">
             <div className="flex items-center gap-2 mb-4">
@@ -144,7 +150,8 @@ export default function AnimeDetail() {
               <option>Completed</option>
             </select>
 
-            <button className="w-full py-2.5 rounded-lg font-semibold text-sm text-white bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 transition-all shadow-lg shadow-pink-900/20">
+            <button
+            onClick={handleSaveStatus} className="w-full py-2.5 rounded-lg font-semibold text-sm text-white bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-400 hover:to-pink-500 transition-all shadow-lg shadow-pink-900/20">
               Save Status
             </button>
           </div>
@@ -182,7 +189,7 @@ export default function AnimeDetail() {
             <textarea
               value={review}
               onChange={(e) => setReview(e.target.value)}
-              placeholder="Record your personal notes, plot reviews, or character comments..."
+              placeholder="Record your personal plot reviews, or character comments..."
               rows={4}
               className="w-full mt-2 mb-4 px-3 py-2.5 rounded-lg bg-[#0a0e1a] border border-white/10 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-orange-500/50 transition-colors resize-none"
             />
