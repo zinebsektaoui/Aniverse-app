@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Tv, Flame, Users, Heart, BookOpen, BarChart3 } from "lucide-react";
+import {Tv,Flame,Users,Heart,BookOpen,BarChart3,Menu,X} from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const NAV_ITEMS = [
@@ -12,28 +12,32 @@ const NAV_ITEMS = [
 ];
 
 export default function Navbar() {
-  return (
-    <nav className="w-full bg-slate-950 border-b border-slate-800 px-6 py-3 flex items-center justify-between">
-      <div className="flex items-center gap-2.5">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
-          <Tv className="w-5 h-5 text-white" strokeWidth={2.5} />
-        </div>
-        <span className="text-lg font-bold tracking-tight">
-          <span className="text-white">Ani</span>
-          <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
-            Verse
-          </span>
-        </span>
-      </div>
+  const [isOpen, setIsOpen] = useState(false);
 
-      <ul className="flex items-center gap-1">
-        {NAV_ITEMS.map(({ path, label, icon: Icon }) => {
-          return (
+  return (
+    <>
+      <nav className="w-full bg-slate-950 border-b border-slate-800 px-6 py-3 flex items-center justify-between relative">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
+            <Tv className="w-5 h-5 text-white" strokeWidth={2.5} />
+          </div>
+
+          <span className="text-lg font-bold tracking-tight">
+            <span className="text-white">Ani</span>
+            <span className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">
+              Verse
+            </span>
+          </span>
+        </div>
+
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex items-center gap-1">
+          {NAV_ITEMS.map(({ path, label, icon: Icon }) => (
             <li key={label}>
               <NavLink
                 to={path}
                 className={({ isActive }) =>
-                  `relative flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  `flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     isActive
                       ? "bg-slate-800/70 text-orange-400"
                       : "text-slate-400 hover:text-white"
@@ -54,9 +58,43 @@ export default function Navbar() {
                 )}
               </NavLink>
             </li>
-          );
-        })}
-      </ul>
-    </nav>
+          ))}
+        </ul>
+
+        {/* Hamburger Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-white"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </nav>
+
+      {/* Mobile Navigation */}
+      {isOpen && (
+        <div className="md:hidden bg-slate-950 border-b border-slate-800">
+          <ul className="flex flex-col p-4 gap-2">
+            {NAV_ITEMS.map(({ path, label, icon: Icon }) => (
+              <li key={label}>
+                <NavLink
+                  to={path}
+                  onClick={() => setIsOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                      isActive
+                        ? "bg-slate-800 text-orange-400"
+                        : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    }`
+                  }
+                >
+                  <Icon className="w-5 h-5" />
+                  <span>{label}</span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 }
