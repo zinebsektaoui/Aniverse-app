@@ -7,6 +7,8 @@ import AnimeDetail from "./components/anime/AnimeDetail";
 import Favorite from "./pages/Favorite";
 import Characters from "./pages/Characters";
 import CharactersDetails from "./pages/CharactersDetails";
+import Library from "./pages/Library";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/favorites" element={<Favorite />} />
         <Route path="/characters" element={<Characters />} />
         <Route path="/characters/:id" element={<CharactersDetails />} />
+        <Route path="/my-library" element={<Library />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </>
   );
