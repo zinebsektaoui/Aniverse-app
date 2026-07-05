@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addNoteAndReview } from "../thunks/noteThunk";
+import { addNoteAndReview, getNote } from "../thunks/noteThunk";
 
 const initialState = {
     noteAndReview : [],
@@ -23,6 +23,18 @@ const noteSlice = createSlice({
             state.loading = false
         })
         .addCase(addNoteAndReview.rejected, (state, action) => {
+            state.error = action.payload
+            state.loading = false
+        })
+        .addCase(getNote.pending, (state) => {
+            state.loading = true
+            state.error = null
+        })
+        .addCase(getNote.fulfilled, (state, action) => {
+            state.noteAndReview = action.payload
+            state.loading = false
+        })
+        .addCase(getNote.rejected, (state, action) => {
             state.error = action.payload
             state.loading = false
         })

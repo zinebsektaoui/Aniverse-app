@@ -12,3 +12,15 @@ export const addNoteAndReview = createAsyncThunk(
         }
     }
 )
+
+export const getNote =createAsyncThunk(
+    "/anime/note",
+    async(_, {rejectWithValue}) =>{
+        try {
+            const res = await jsonServer.get("/notesAndReviews")
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
