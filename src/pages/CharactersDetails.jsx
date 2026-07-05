@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Sparkles, BookOpen, Info } from "lucide-react";
 import { characterDetails } from "../redux/thunks/characterThunk";
+import Footer from "../components/layouts/Footer";
+import Spinner from "../components/layouts/Spinner";
+import ErrorState from "../components/layouts/ErrorState";
 
 function CharactersDetails() {
   const { id } = useParams();
@@ -23,6 +26,8 @@ function CharactersDetails() {
       </div>
     );
   }
+  if(loading) return <Spinner />
+  if (error) return <ErrorState />
 
   return (
     <div className="min-h-screen bg-[#0b0e17] px-6 py-8 text-white">
@@ -78,6 +83,7 @@ function CharactersDetails() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
